@@ -1,133 +1,163 @@
-//Задание 1
-class Book(val title: String, val author: String, var year: Int, var price: Int)
+package com.example.myapplication
 
-//Задание 2
-class Student(val name: String, val surname: String, var group: String) {
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-    var fullName = ""
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MaterialTheme {
+                Surface {
 
-    init {
-        fullName = "$name $surname"
-        println("Создан студент: $fullName, группа: $group")
-    }
-}
-
-//Задание 3
-class BankAccount(initialBalance: Int) {
-
-    var balance: String = "$initialBalance"
-        set(value) {
-            val newVal = value.toIntOrNull()
-            // Проверка: если число валидно и не отрицательное
-            if (newVal != null && newVal >= 0) {
-                field = value
-            } else {
-                println("Ошибка: баланс не может быть отрицательным!")
+                    PracticalWork10()
+                }
             }
         }
-        get() = "Баланс: $field ₽"
-}
-
-//4
-enum class OrderStatus(val description: String) {
-    NEW("Новый заказ"),
-    PROCESSING("Заказ в обработке"),
-    SHIPPED("Отправлен"),
-    DELIVERED("Доставлен"),
-    CANCELLED("Отменён");
-
-
-    fun isFinished(): Boolean = this == DELIVERED || this == CANCELLED
-}
-
-//Задание 5
-// Часть А
-data class Product(val id: Int, val name: String, var price: Int, var inStock: Boolean)
-
-// Часть Б
-object ProductCatalog {
-
-    private val _products = mutableListOf<Product>()
-
-
-    val products: List<Product>
-        get() = _products.toList()
-
-
-    fun addProduct(product: Product) {
-        _products.add(product)
-    }
-
-
-    fun findById(id: Int): Product? {
-        return _products.find { it.id == id }
     }
 }
 
+@Composable
+fun PracticalWork10() {
 
-fun main() {
-    println("--- Задание 1: Книги ---")
-    val book1 = Book("Война и мир", "Лев Толстой", 1869, 1200)
-    val book2 = Book("Преступление и наказание", "Ф. Достоевский", 1866, 900)
-    val book3 = Book("1984", "Джордж Оруэлл", 1949, 850)
+    var score by remember { mutableStateOf(0) }
 
-
-    book1.price = 1500
-
-    println("Книга: ${book1.title}, Автор: ${book1.author}, Год: ${book1.year}, Цена: ${book1.price}₽")
-    println("Книга: ${book2.title}, Автор: ${book2.author}, Год: ${book2.year}, Цена: ${book2.price}₽")
-    println("Книга: ${book3.title}, Автор: ${book3.author}, Год: ${book3.year}, Цена: ${book3.price}₽")
-    println()
-
-    println("--- Задание 2: Студенты ---")
-    val student1 = Student("Иван", "Петров", "ИС-21")
-    val student2 = Student("Анна", "Смирнова", "БИ-32")
-    println(student1.fullName)
-    println(student2.fullName)
-    println()
-
-    println("--- Задание 3: Банковский счет ---")
-    val account = BankAccount(1000)
-    println(account.balance)
-
-    account.balance = "-500"
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        Text("Практическая работа 10", fontSize = 20.sp, color = Color.Black)
 
 
-    account.balance = "2000"
-    println(account.balance)
-    println()
+        Text("Задание 1 & 2: Порядок модификаторов и свой цвет", fontSize = 16.sp)
 
-    println("--- Задание 4: Статусы заказа ---")
 
-    for (status in OrderStatus.values()) {
-        println("${status.name} - ${status.description}")
+        val myColor = Color(0xFF6200EE)
+
+
+        Text(
+            text = "1. Фон -> Смещение",
+            modifier = Modifier
+                .background(myColor)
+                .offset(x = 30.dp, y = 0.dp)
+                .padding(bottom = 10.dp)
+        )
+
+
+        Text(
+            text = "2. Смещение -> Фон",
+            modifier = Modifier
+                .offset(x = 30.dp, y = 0.dp)
+                .background(Color.LightGray)
+                .padding(bottom = 10.dp)
+        )
+
+        Divider()
+
+
+        Text("Задание 3: Размер 3/4 контейнера", fontSize = 16.sp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .background(Color.Gray)
+        ) {
+            Text(
+                text = "Я занимаю 75% ширины",
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .background(Color.Green)
+            )
+        }
+
+        Divider()
+
+
+        Text("Задание 4: Настройка Padding", fontSize = 16.sp)
+
+        Text(
+            text = "Текст с отступами",
+            modifier = Modifier
+                .background(Color.Cyan)
+                .padding(start = 30.dp, top = 10.dp, end = 30.dp, bottom = 10.dp) // Практика 4
+        )
+
+        Divider()
+
+
+        Text("Задание 5: Border, Padding внутри, RoundedCorner", fontSize = 16.sp)
+
+        Text(
+            text = "Текст в рамке",
+            modifier = Modifier
+
+                .padding(10.dp)
+
+                .border(
+                    width = 2.dp,
+                    color = Color.Red,
+                    shape = RoundedCornerShape(20.dp)
+                )
+                .background(Color.White)
+        )
+
+        Divider()
+
+
+        Text("Задание 6: Кликер", fontSize = 16.sp)
+        Text("Текущий счет: ${score}", fontSize = 24.sp, color = Color.Blue)
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+
+            Text(
+                text = "Кликни меня (+5)",
+                color = Color.DarkGray,
+                modifier = Modifier
+                    .background(Color.LightGray)
+                    .padding(16.dp)
+                    .clickable {
+                        score += 5
+                    }
+            )
+
+
+            Text(
+                text = "Фиксировать прибыль",
+                color = Color.Red,
+                modifier = Modifier
+                    .background(Color.LightGray)
+                    .padding(16.dp)
+                    .clickable {
+                        score = 0
+                    }
+            )
+        }
     }
+}
 
-
-    print("Завершённые статусы: ")
-    val finishedStatuses = OrderStatus.values().filter { it.isFinished() }
-    println(finishedStatuses.joinToString { it.name })
-    println()
-
-    println("--- Задание 5: Товары и Каталог ---")
-    // Часть А
-    val product1 = Product(1, "Ноутбук", 50000, true)
-    val product2 = Product(1, "Ноутбук", 50000, true)
-
-    println("Сравнение товаров (==): ${product1 == product2}") // true, так как data class сравнивает поля
-
-    val productCopy = product1.copy(price = 45000)
-    println("Оригинал: $product1")
-    println("Копия: $productCopy")
-
-    // Часть Б
-    ProductCatalog.addProduct(product1)
-    ProductCatalog.addProduct(Product(2, "Мышка", 1500, true))
-    ProductCatalog.addProduct(Product(3, "Клавиатура", 3000, false))
-
-    println("Все товары в каталоге:")
-    ProductCatalog.products.forEach { println(it) }
-
-    val foundProduct = ProductCatalog.findById(2)
-    println("Найденный товар по ID 2: $foundProduct")
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    PracticalWork10()
+}
 }
