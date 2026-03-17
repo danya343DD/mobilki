@@ -1,20 +1,18 @@
-package com.example.myapplication
+package com.example.practice11
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -23,141 +21,59 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                Surface {
+                Surface(color = MaterialTheme.colorScheme.background) {
 
-                    PracticalWork10()
+                    Practice1BoxLayout()
                 }
             }
         }
     }
 }
 
-@Composable
-fun PracticalWork10() {
-
-    var score by remember { mutableStateOf(0) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+/**
+ * Практика 1: Контейнер Box и фон для текста
+ * Задача: Сделать так, чтобы каждый участок текста был залит фоном.
+ */
+@androidx.compose.runtime.Composable
+fun Practice1BoxLayout() {
+    // Box занимает всё доступное место (fillMaxSize)
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Text("Практическая работа 10", fontSize = 20.sp, color = Color.Black)
-
-
-        Text("Задание 1 & 2: Порядок модификаторов и свой цвет", fontSize = 16.sp)
-
-
-        val myColor = Color(0xFF6200EE)
-
-
+        // Текст 1: Верхний левый угол (TopStart)
         Text(
-            text = "1. Фон -> Смещение",
+            text = "Текст 1 (TopStart)",
+            fontSize = 20.sp,
+            color = Color.White,
             modifier = Modifier
-                .background(myColor)
-                .offset(x = 30.dp, y = 0.dp)
-                .padding(bottom = 10.dp)
+                .align(Alignment.TopStart) // Выравнивание внутри Box
+                .background(Color.Red)     // Заливка фоном (Практика 1)
+                .padding(8.dp)             // Отступ внутри фона для красоты
         )
 
-
+        // Текст 2: Центр (Center)
         Text(
-            text = "2. Смещение -> Фон",
+            text = "Текст 2 (Center)",
+            fontSize = 20.sp,
+            color = Color.White,
             modifier = Modifier
-                .offset(x = 30.dp, y = 0.dp)
-                .background(Color.LightGray)
-                .padding(bottom = 10.dp)
+                .align(Alignment.Center)
+                .background(Color.Green)   // Заливка фоном
+                .padding(8.dp)
         )
 
-        Divider()
-
-
-        Text("Задание 3: Размер 3/4 контейнера", fontSize = 16.sp)
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .background(Color.Gray)
-        ) {
-            Text(
-                text = "Я занимаю 75% ширины",
-                modifier = Modifier
-                    .fillMaxWidth(0.75f)
-                    .background(Color.Green)
-            )
-        }
-
-        Divider()
-
-
-        Text("Задание 4: Настройка Padding", fontSize = 16.sp)
-
+        // Текст 3: Нижний правый угол (BottomEnd)
         Text(
-            text = "Текст с отступами",
+            text = "Текст 3 (BottomEnd)",
+            fontSize = 20.sp,
+            color = Color.White,
             modifier = Modifier
-                .background(Color.Cyan)
-                .padding(start = 30.dp, top = 10.dp, end = 30.dp, bottom = 10.dp) // Практика 4
+                .align(Alignment.BottomEnd)
+                .background(Color.Blue)    // Заливка фоном
+                .padding(8.dp)
         )
 
-        Divider()
-
-
-        Text("Задание 5: Border, Padding внутри, RoundedCorner", fontSize = 16.sp)
-
-        Text(
-            text = "Текст в рамке",
-            modifier = Modifier
-
-                .padding(10.dp)
-
-                .border(
-                    width = 2.dp,
-                    color = Color.Red,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .background(Color.White)
-        )
-
-        Divider()
-
-
-        Text("Задание 6: Кликер", fontSize = 16.sp)
-        Text("Текущий счет: ${score}", fontSize = 24.sp, color = Color.Blue)
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-
-            Text(
-                text = "Кликни меня (+5)",
-                color = Color.DarkGray,
-                modifier = Modifier
-                    .background(Color.LightGray)
-                    .padding(16.dp)
-                    .clickable {
-                        score += 5
-                    }
-            )
-
-
-            Text(
-                text = "Фиксировать прибыль",
-                color = Color.Red,
-                modifier = Modifier
-                    .background(Color.LightGray)
-                    .padding(16.dp)
-                    .clickable {
-                        score = 0
-                    }
-            )
-        }
+        // Текст 4: Пример с contentAlignment самого Box (если бы не было align у текста)
+        // Но так как мы используем align у каждого текста, они игнорируют contentAlignment родителя
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    PracticalWork10()
-}
 }
